@@ -1,0 +1,481 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wght@300;400;500;600;700;800;900&display=swap');
+@import './themes/tokens.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Legacy Tailwind variables - keep for compatibility */
+  --background: var(--bg, hsl(0, 0%, 4%));
+  --foreground: var(--text, hsl(0, 0%, 98%));
+  --card: var(--surface, hsl(0, 0%, 6%));
+  --card-foreground: var(--text, hsl(0, 0%, 98%));
+  --popover: var(--surface, hsl(0, 0%, 6%));
+  --popover-foreground: var(--text, hsl(0, 0%, 98%));
+  --primary: var(--primary, hsl(45, 93%, 58%));
+  --primary-foreground: var(--primary-contrast, hsl(0, 0%, 98%));
+  --secondary: var(--secondary, hsl(217, 32%, 17%));
+  --secondary-foreground: var(--secondary-foreground, hsl(0, 0%, 98%));
+  --muted: var(--bg-muted, hsl(217, 32%, 17%));
+  --muted-foreground: var(--text-muted, hsl(215, 20%, 65%));
+  --accent: var(--accent, hsl(38, 92%, 50%));
+  --accent-foreground: var(--accent-contrast, hsl(0, 0%, 9%));
+  --destructive: hsl(0, 62%, 30%);
+  --destructive-foreground: hsl(0, 85%, 97%);
+  --border: var(--border, hsl(217, 32%, 17%));
+  --input: var(--bg-muted, hsl(217, 32%, 17%));
+  --ring: var(--ring, hsl(45, 93%, 58%));
+  --radius: var(--radius, 0.75rem);
+
+  /* Theme system variables - defaults to modern */
+  --bg: hsl(0, 0%, 4%);
+  --bg-muted: hsl(0, 0%, 6%);
+  --surface: hsl(0, 0%, 6%);
+  --text: hsl(0, 0%, 98%);
+  --text-muted: hsl(215, 20%, 65%);
+  --primary: hsl(45, 93%, 58%);
+  --primary-contrast: hsl(0, 0%, 98%);
+  --accent: hsl(38, 92%, 50%);
+  --accent-contrast: hsl(0, 0%, 9%);
+  --secondary: hsl(217, 32%, 17%);
+  --border: hsl(217, 32%, 17%);
+  --ring: hsl(45, 93%, 58%);
+  --radius: 0.75rem;
+  --radius-large: 1rem;
+  --radius-small: 0.5rem;
+  --shadow-elev-1: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-elev-2: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --shadow-elev-3: 0 8px 16px rgba(0, 0, 0, 0.2);
+  --spacing: 0.25rem;
+  --backdrop-blur: blur(12px);
+  --background-texture: none;
+  --pattern-opacity: 0;
+
+  /* Typography */
+  --font-family: 'Montserrat', sans-serif;
+  --font-family-display: 'Montserrat', sans-serif;
+  --font-family-body: 'Montserrat', sans-serif;
+  --font-sans: var(--font-family);
+  --font-serif: var(--font-family-display);
+  --font-mono: 'Montserrat', monospace;
+  --font-display: var(--font-family-display);
+
+  --shadow-2xs: var(--shadow-elev-1);
+  --shadow-xs: var(--shadow-elev-1);
+  --shadow-sm: var(--shadow-elev-1);
+  --shadow: var(--shadow-elev-1);
+  --shadow-md: var(--shadow-elev-2);
+  --shadow-lg: var(--shadow-elev-2);
+  --shadow-xl: var(--shadow-elev-3);
+  --shadow-2xl: var(--shadow-elev-3);
+  --tracking-normal: 0em;
+}
+
+.dark {
+  --background: hsl(0, 0%, 4%);
+  --foreground: hsl(0, 0%, 98%);
+  --card: hsl(0, 0%, 6%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --popover: hsl(0, 0%, 6%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --primary: hsl(45, 93%, 58%);
+  --primary-foreground: hsl(0, 0%, 98%);
+  --secondary: hsl(217, 32%, 17%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --muted: hsl(217, 32%, 17%);
+  --muted-foreground: hsl(215, 20%, 65%);
+  --accent: hsl(38, 92%, 50%);
+  --accent-foreground: hsl(0, 0%, 9%);
+  --destructive: hsl(0, 62%, 30%);
+  --destructive-foreground: hsl(0, 85%, 97%);
+  --border: hsl(217, 32%, 17%);
+  --input: hsl(217, 32%, 17%);
+  --ring: hsl(45, 93%, 58%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-family);
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: var(--background-texture);
+    background-size: 100px 100px;
+    opacity: var(--pattern-opacity);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+  }
+}
+
+/* Theme-specific styles */
+[data-theme="modern"] {
+  --bg: hsl(0, 0%, 4%);
+  --bg-muted: hsl(0, 0%, 6%);
+  --surface: hsl(0, 0%, 6%);
+  --text: hsl(0, 0%, 98%);
+  --text-muted: hsl(215, 20%, 65%);
+  --primary: hsl(45, 93%, 58%);
+  --primary-contrast: hsl(0, 0%, 98%);
+  --accent: hsl(38, 92%, 50%);
+  --accent-contrast: hsl(0, 0%, 9%);
+  --secondary: hsl(217, 32%, 17%);
+  --border: hsl(217, 32%, 17%);
+  --ring: hsl(45, 93%, 58%);
+  --radius: 0.75rem;
+  --radius-large: 1rem;
+  --radius-small: 0.5rem;
+  --shadow-elev-1: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-elev-2: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --shadow-elev-3: 0 8px 16px rgba(0, 0, 0, 0.2);
+  --spacing: 0.25rem;
+  --backdrop-blur: blur(12px);
+  --background-texture: none;
+  --pattern-opacity: 0;
+  --font-family: 'Montserrat', sans-serif;
+  --font-family-display: 'Montserrat', sans-serif;
+  --font-family-body: 'Montserrat', sans-serif;
+}
+
+[data-theme="trad"] {
+  --bg: hsl(30, 15%, 5%);
+  --bg-muted: hsl(25, 35%, 8%);
+  --surface: hsl(25, 35%, 8%);
+  --text: hsl(40, 25%, 92%);
+  --text-muted: hsl(35, 20%, 75%);
+  --primary: hsl(0, 91%, 35%);
+  --primary-contrast: hsl(40, 25%, 92%);
+  --accent: hsl(45, 85%, 62%);
+  --accent-contrast: hsl(30, 15%, 5%);
+  --secondary: hsl(168, 45%, 35%);
+  --border: hsl(42, 25%, 42%);
+  --ring: hsl(45, 85%, 62%);
+  --radius: 1rem;
+  --radius-large: 1.5rem;
+  --radius-small: 0.75rem;
+  --shadow-elev-1: 0 2px 8px rgba(178, 10, 10, 0.1);
+  --shadow-elev-2: 0 4px 16px rgba(178, 10, 10, 0.15);
+  --shadow-elev-3: 0 8px 24px rgba(178, 10, 10, 0.2);
+  --spacing: 0.375rem;
+  --backdrop-blur: blur(8px);
+  --background-texture: url('/themes/trad/pattern.svg');
+  --pattern-opacity: 0.08;
+  --font-family: 'Be Vietnam Pro', 'Inter', sans-serif;
+  --font-family-display: 'Noto Serif Display', 'Noto Serif', serif;
+  --font-family-body: 'Be Vietnam Pro', 'Inter', sans-serif;
+}
+
+/* Vietnamese Traditional theme specific styles */
+[data-theme="trad"] h1,
+[data-theme="trad"] h2,
+[data-theme="trad"] h3,
+[data-theme="trad"] .font-display {
+  font-family: var(--font-family-display);
+  letter-spacing: 0.025em;
+}
+
+[data-theme="trad"] h1:first-letter {
+  font-size: 1.2em;
+  float: left;
+  line-height: 0.8;
+  margin-right: 0.1em;
+  margin-top: 0.05em;
+}
+
+[data-theme="trad"] .card,
+[data-theme="trad"] .surface {
+  background: var(--surface);
+  backdrop-filter: var(--backdrop-blur);
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+[data-theme="trad"] .card:hover {
+  border-image: linear-gradient(45deg, var(--accent), transparent, var(--accent)) 1;
+}
+
+[data-theme="trad"] button {
+  border-radius: var(--radius);
+  outline-offset: 3px;
+  transition: all 0.2s ease-out;
+}
+
+[data-theme="trad"] button:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+[data-theme="trad"] button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-elev-2);
+}
+
+[data-theme="trad"] .section-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--accent), transparent);
+  margin: 2rem 0;
+}
+
+/* Custom styles for the Vietnamese game website */
+.hero-gradient {
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.3) 0%, rgba(245, 158, 11, 0.2) 100%);
+}
+
+[data-theme="trad"] .hero-gradient {
+  background: linear-gradient(135deg, rgba(178, 10, 10, 0.2) 0%, rgba(242, 200, 75, 0.1) 100%);
+}
+
+/* Golden text style matching the reference image */
+.golden-text {
+  background: linear-gradient(45deg, #FFD700, #FFA500, #FFFF99, #DAA520, #B8860B);
+  background-size: 200% 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.5), 0 0 60px rgba(255, 215, 0, 0.3);
+  animation: golden-glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes golden-glow {
+  0% {
+    background-position: 0% 50%;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.4), 0 0 40px rgba(255, 215, 0, 0.2);
+  }
+  100% {
+    background-position: 100% 50%;
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 215, 0, 0.4);
+  }
+}
+
+.masonry {
+  column-count: 3;
+  column-gap: 1rem;
+  column-fill: balance;
+}
+
+@media (max-width: 768px) {
+  .masonry {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 480px) {
+  .masonry {
+    column-count: 1;
+  }
+}
+
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+}
+
+/* Model viewer styles */
+model-viewer {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  --progress-bar-color: #4F46E5;
+  --progress-bar-height: 4px;
+}
+
+model-viewer::part(default-progress-bar) {
+  background-color: var(--progress-bar-color);
+  height: var(--progress-bar-height);
+  border-radius: 2px;
+}
+
+model-viewer::part(default-progress-mask) {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+}
+
+/* Loading spinner */
+.loading-spinner {
+  border: 2px solid var(--muted);
+  border-top: 2px solid var(--primary);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+
+/* Premium Global Animations */
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes float-gentle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(139, 69, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(139, 69, 255, 0.6);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Premium Animation Classes */
+.animate-gradient-shift {
+  animation: gradient-shift 8s ease infinite;
+}
+
+.animate-float-gentle {
+  animation: float-gentle 4s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-slide-in-left {
+  animation: slideInFromLeft 0.6s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInFromRight 0.6s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.5s ease-out forwards;
+}
+
+/* Premium Glass Effects */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.16);
+  transform: translateY(-4px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Premium Custom Scrollbar */
+[data-preset="premium"] ::-webkit-scrollbar {
+  width: 8px;
+}
+
+[data-preset="premium"] ::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+[data-preset="premium"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #8b45ff, #3b82f6);
+  border-radius: 4px;
+}
+
+[data-preset="premium"] ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
+}

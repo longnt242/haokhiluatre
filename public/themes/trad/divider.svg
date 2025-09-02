@@ -1,0 +1,36 @@
+<svg width="400" height="20" viewBox="0 0 400 20" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gold gradient for the divider -->
+    <linearGradient id="goldDivider" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:transparent"/>
+      <stop offset="20%" style="stop-color:#F2C84B;stop-opacity:0.3"/>
+      <stop offset="50%" style="stop-color:#F2C84B;stop-opacity:0.8"/>
+      <stop offset="80%" style="stop-color:#F2C84B;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:transparent"/>
+    </linearGradient>
+    
+    <!-- Vietnamese decorative motif -->
+    <g id="vietnameseMotif">
+      <circle cx="0" cy="0" r="3" fill="#F2C84B" opacity="0.6"/>
+      <path d="M-2,-2 Q0,-4 2,-2 Q4,0 2,2 Q0,4 -2,2 Q-4,0 -2,-2 Z" fill="#DAA520" opacity="0.4"/>
+    </g>
+  </defs>
+  
+  <!-- Main divider line -->
+  <rect x="0" y="9" width="400" height="2" fill="url(#goldDivider)"/>
+  
+  <!-- Central decorative element -->
+  <use href="#vietnameseMotif" transform="translate(200, 10)"/>
+  
+  <!-- Side decorative elements -->
+  <use href="#vietnameseMotif" transform="translate(150, 10) scale(0.7)"/>
+  <use href="#vietnameseMotif" transform="translate(250, 10) scale(0.7)"/>
+  
+  <!-- Outer decorative elements -->
+  <use href="#vietnameseMotif" transform="translate(100, 10) scale(0.5)"/>
+  <use href="#vietnameseMotif" transform="translate(300, 10) scale(0.5)"/>
+  
+  <!-- Small accent dots -->
+  <circle cx="50" cy="10" r="1" fill="#F2C84B" opacity="0.4"/>
+  <circle cx="350" cy="10" r="1" fill="#F2C84B" opacity="0.4"/>
+</svg>

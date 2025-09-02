@@ -1,0 +1,159 @@
+Prompt: Full UI “Preset Switcher” (layout + effects) for Hào Khí Lửa Tre — The Weakened
+
+Goal: Add a one-click Preset Switcher that can completely restyle and re-layout the website without touching content or data. Keep all images/videos/3D models (Supabase) intact. Toggling must be instant and reversible (like changing a CapCut preset). Two presets:
+
+Modern (current look)
+
+Vietnamese Traditional Game (“Cổ truyền VN”) – a radically different layout/animation/style inspired by Vietnamese heritage
+
+Keep all routes, APIs, and storage paths the same. No migrations. Content must not reload or disappear when switching presets.
+
+Core Requirements
+
+Preset Engine
+
+Implement a PresetProvider with usePreset() hook.
+
+Store the active preset in localStorage (preset=modern|trad) and allow URL override ?preset=modern|trad.
+
+Apply a root attribute data-preset="modern|trad" on <html> or <body>.
+
+Expose a central registry that maps each UI area to a component variant:
+
+// example shape
+const presetRegistry = {
+  Navbar: { modern: NavbarModern, trad: NavbarTrad },
+  Hero: { modern: HeroModern, trad: HeroTrad },
+  ModelsGrid: { modern: ModelsGridModern, trad: ModelsShowcaseTrad },
+  Gallery: { modern: GalleryMasonry, trad: GalleryAlbumsTrad },
+  Videos: { modern: VideoGridModern, trad: VideoFilmstripTrad },
+  Footer: { modern: FooterModern, trad: FooterTrad },
+  Button: { modern: ButtonModern, trad: ButtonLacquerTrad },
+  Card:   { modern: CardModern,   trad: CardScrollTrad },
+};
+
+
+A shared content adapter feeds the same data (models/images/videos) into whichever component is active, so data fetching stays identical.
+
+Zero-content-loss & performance
+
+Do not unmount heavy viewers when switching presets. Re-layout using CSS/Grid reordering or wrapper components so <model-viewer> and <video> elements keep the same React keys and remain mounted.
+
+Preserve scroll position if possible.
+
+Switching presets must not trigger a full page reload.
+
+Toggle UI
+
+Add a “Giao diện” button in the navbar that opens a small menu:
+
+“Hiện đại”
+
+“Cổ truyền VN”
+
+“Sao chép link giao diện này” (copies URL with ?preset=).
+
+Show toast in VN: “Đã áp dụng giao diện Cổ truyền VN / Đã quay về giao diện Hiện đại”.
+
+Tokens & Global Styles
+
+Use CSS variables for colors, typography, spacing, radius, shadows, textures; switch values via [data-preset=...].
+
+If Tailwind is present, wire variables into Tailwind theme (or use utility classes with var(--token)).
+
+Keep accessibility: text contrast ≥ 4.5:1; focus rings visible.
+
+What changes between the presets (not just colors!)
+A) Global layout
+
+Modern: keep current top navbar + section layouts.
+
+Cổ truyền VN:
+
+Left vertical sidebar navbar (logo crest of “Hào Khí Lửa Tre — The Weakened”), collapsible on mobile; content area uses a 12-col grid.
+
+Subtle parchment/paper SVG texture background; thin “gold” separators between sections.
+
+B) Home / Hero
+
+Modern: current hero/video background.
+
+Trad: split two-column hero:
+
+Left: large calligraphic title + short copy (VN) + two CTA buttons (thick outline, lacquer red hover).
+
+Right: teaser video inside a bamboo frame (SVG border).
+
+Entrance animations (Framer Motion): slide-in + slight parallax on scroll.
+
+C) Models (3D)
+
+Modern: grid of cards → modal/detail.
+
+Trad: featured 3D viewer on top (large), with vertical thumbnail rail (mini covers) on the right; clicking a thumbnail swaps the src of the same <model-viewer> element (preserves mount). Tabs (VN): “Tất cả / Sinh vật / Vũ khí / Cảnh quan”.
+
+Card style = parchment scroll with gold hairline border; hover: gentle scale + bronze glow.
+
+D) Gallery (2D)
+
+Modern: masonry grid + lightbox.
+
+Trad: album sections styled like scrolls; each album has a title ribbon; images open a lightbox with gold frame and keyboard navigation.
+
+E) Videos
+
+Modern: poster cards grid.
+
+Trad: featured full-width player on top + filmstrip thumbnails below; hover = soft ripple; poster frames with thin gold border.
+
+F) Buttons & micro-interactions
+
+Modern: keep current.
+
+Trad: “LacquerButton” variant: rounded-2xl, gold outline, subtle shadow; hover adds inner glow; motion tap scale 0.98.
+
+G) Typography & palette (Trad)
+
+Headings: Noto Serif Display (Vietnamese subset), Body: Be Vietnam Pro.
+
+Colors (tokens): lacquer red #B20A0A, imperial yellow #F2C84B, jade green #2F7F6F, bronze #6B5B3E, backgrounds #0E0D0B / #24140F, text #F1EDE3.
+
+Assets: place SVGs under public/themes/trad/ (drum motif, bamboo frame, divider).
+
+Developer Notes (stack-agnostic)
+
+Keep routes and data fetchers exactly the same. Only swap UI components via the preset registry.
+
+For <model-viewer> and <video>, do not change keys on preset switch.
+
+Persist preset in localStorage and apply on first render; URL param ?preset= overrides and is saved.
+
+Add ThemeGuard to wait for initial preset load to avoid flash of the wrong preset.
+
+Deliverables
+
+providers/PresetProvider.tsx + usePreset()
+
+themes/tokens.css with variable definitions for [data-preset=modern] and [data-preset=trad]
+
+themes/modern/* and themes/trad/* component folders (Navbar, Hero, Models, Gallery, Videos, Footer, Button, Card)
+
+components/PresetSwitcher.tsx (VN labels + copy-link)
+
+SVG assets under public/themes/trad/ (pattern, dividers, bamboo frame)
+
+README section “Preset Switcher (VN)”: how it works and how to add a third preset later
+
+Keep ESLint/TypeScript happy; no console errors; no data/schema changes
+
+Acceptance criteria
+
+Clicking Giao diện → Cổ truyền VN immediately swaps to the new layout (sidebar nav, new hero, featured 3D viewer with thumbnails, album-style gallery, filmstrip videos, new buttons/animations).
+
+Content (images/videos/models) stays loaded; model/video playback doesn’t reset on toggle.
+
+Toggling back returns to the original layout with no data loss.
+
+The chosen preset persists across page loads and can be forced by ?preset=trad|modern.
+
+When done, run the app. I should be able to switch presets with one click, see a totally different layout and effects in the “Cổ truyền VN” preset, and switch back with everything intact.

@@ -1,0 +1,154 @@
+Add a one-click “Preset switcher” that fully restyles the website UI without touching content or data. Keep all existing pages, uploads (Supabase), and the 3D viewer working exactly the same. Implement two presets and a toggle button:
+
+Default preset: keep the current modern dark look.
+
+Vietnamese Traditional Game preset (“Cổ truyền VN”): completely new look & layout accents inspired by Vietnamese heritage.
+
+Constraints (very important)
+
+Do not change database/storage schemas or upload APIs. No migrations. No content loss.
+
+The toggle must be instant on the client (no rebuild) and reversible with one click.
+
+Persist the chosen preset in localStorage and also allow a ?theme= query param (modern | trad) to override on load.
+
+Work with the current stack (detect whether this repo is Next.js or Vite + Express and implement accordingly).
+
+Secrets/envs remain the same.
+
+Implementation blueprint
+
+Design tokens & theming
+
+Create a lightweight design-tokens layer using CSS variables and (if present) Tailwind CSS.
+
+Add ThemeProvider + useTheme() hook that:
+
+reads localStorage.theme and URLSearchParams.get('theme')
+
+applies a data-theme="modern|trad" attribute on <html> (or <body>).
+
+Provide tokens for colors, typography, radius, shadows, spacing, textures, and component variants. Example variables:
+
+--bg, --bg-muted, --surface, --text, --text-muted,
+--primary, --primary-contrast,
+--accent, --accent-contrast,
+--border, --ring,
+--radius, --shadow-elev-1/2/3
+
+
+In Tailwind (if used), map to CSS variables (e.g., bg-[var(--bg)], or extend theme via :root + [data-theme=trad]).
+
+Two preset files
+
+themes/modern.ts (current values extracted from existing styles).
+
+themes/trad.ts (new values below).
+
+On mount, ThemeProvider sets variables for the active preset.
+
+UI toggle
+
+Add a PresetSwitcher button in the navbar (text: “Giao diện”). A simple button or dropdown with two options:
+
+“Hiện đại”
+
+“Cổ truyền VN”
+
+Clicking switches data-theme and writes to localStorage. Show a toast “Đã áp dụng giao diện Cổ truyền VN”.
+
+Vietnamese Traditional preset (Cổ truyền VN)
+
+Palette (WCAG-friendly):
+
+Background: deep charcoal with subtle paper grain: #0E0D0B + overlay texture (SVG, 8% opacity).
+
+Surface: lacquer dark brown #24140F.
+
+Primary: Lacquer Red #B20A0A.
+
+Accent: Imperial Yellow #F2C84B.
+
+Secondary: Jade Green #2F7F6F.
+
+Lines/borders: muted bronze #6B5B3E.
+
+Text: warm light #F1EDE3; muted text #CFC7B6.
+
+Typography
+
+Headings: Noto Serif Display (or Noto Serif) with Vietnamese subset from Google Fonts.
+
+Body: Be Vietnam Pro or Inter.
+
+Slight letterspacing on headings; larger first-letter caps on section titles.
+
+Textures & motifs
+
+Include SVG background with Đông Sơn drum pattern or bamboo/wave motif:
+
+Add in public/themes/trad/pattern.svg, used as background-image with low opacity + backdrop-filter blur for cards.
+
+Card borders use subtle gold gradient 1px hairline on hover.
+
+Components restyle
+
+Buttons: rounded-2xl, thicker outlines on focus (outline-offset: 3px), ripple-like hover.
+
+Navbar: semi-transparent lacquer bar with subtle shadow.
+
+Section dividers: linear-gradient(to right, transparent, #F2C84B, transparent) thin line.
+
+3D viewer (<model-viewer>)
+
+Keep functionality; only restyle container chrome (title, meta, buttons) to match tokens.
+
+Provide an optional paper/scroll frame style wrapper for detail pages (toggleable via tokens).
+
+Gallery/Videos
+
+Masonry gap reduced; use parchment-like surfaces for image tiles; video posters get a thin gold frame.
+
+Motion
+
+Use gentle entrance animations (Framer Motion optional), duration 200–250ms, easing easeOut.
+
+No content changes
+
+Keep fetching models/images/videos the same way as now.
+
+Do not rename buckets, paths, or routes.
+
+Ensure all pages render identically in terms of structure; only styles/layout accents change via tokens and component variants.
+
+Share & deep-linking
+
+If ?theme=trad or ?theme=modern exists, apply immediately and store to localStorage.
+
+Add a small copy-link action in the PresetSwitcher to copy the current page URL with ?theme= for sharing previews.
+
+Accessibility & performance
+
+Maintain contrast ratio ≥ 4.5:1 for text.
+
+Avoid heavy images for textures; prefer inline SVG or tiny repeating SVGs.
+
+Lazy-load fonts and SVG pattern.
+
+Deliverables
+
+themes/modern.ts, themes/trad.ts, and ThemeProvider.
+
+Preset-aware global CSS (variables for both [data-theme=modern] and [data-theme=trad]).
+
+Updated Navbar with PresetSwitcher (VN labels).
+
+Sample SVG pattern(s) under public/themes/trad/.
+
+README section: “Preset Switcher (VN)” with how to add new presets.
+
+Strings (Vietnamese)
+
+“Giao diện”, “Hiện đại”, “Cổ truyền VN”, “Đã áp dụng giao diện Cổ truyền VN”, “Quay về giao diện Hiện đại”.
+
+When complete, run the app. I should be able to click the “Giao diện” button to switch to the Vietnamese Traditional preset and back, with all my content (images, videos, 3D models) intact and functioning.

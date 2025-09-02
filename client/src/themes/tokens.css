@@ -1,0 +1,298 @@
+/* Preset Token System - Global Variables */
+
+:root {
+  /* Base system tokens - always available */
+  --preset-transition: all 0.2s ease-out;
+  --preset-animation: 0.25s ease-out;
+}
+
+/* Modern Preset Tokens */
+[data-preset="modern"] {
+  /* Colors */
+  --bg: hsl(0, 0%, 4%);
+  --bg-muted: hsl(0, 0%, 6%);
+  --surface: hsl(0, 0%, 6%);
+  --text: hsl(0, 0%, 98%);
+  --text-muted: hsl(215, 20%, 65%);
+  
+  --primary: hsl(45, 93%, 58%);
+  --primary-contrast: hsl(0, 0%, 98%);
+  --accent: hsl(38, 92%, 50%);
+  --accent-contrast: hsl(0, 0%, 9%);
+  --secondary: hsl(217, 32%, 17%);
+  --border: hsl(217, 32%, 17%);
+  --ring: hsl(45, 93%, 58%);
+  
+  /* Layout */
+  --navbar-height: 4rem;
+  --sidebar-width: 0px;
+  --content-margin-left: 0px;
+  --layout-type: 'horizontal';
+  
+  /* Typography */
+  --font-family: 'Montserrat', sans-serif;
+  --font-family-display: 'Montserrat', sans-serif;
+  --font-family-body: 'Montserrat', sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+  --letter-spacing: 0em;
+  
+  /* Spacing & Layout */
+  --radius: 0.75rem;
+  --radius-large: 1rem;
+  --radius-small: 0.5rem;
+  --spacing: 0.25rem;
+  --gap: 1rem;
+  --section-padding: 4rem 0;
+  
+  /* Shadows */
+  --shadow-elev-1: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-elev-2: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --shadow-elev-3: 0 8px 16px rgba(0, 0, 0, 0.2);
+  
+  /* Effects */
+  --backdrop-blur: blur(12px);
+  --background-texture: none;
+  --pattern-opacity: 0;
+  --divider: 1px solid var(--border);
+  
+  /* Animations */
+  --animation-duration: 0.2s;
+  --animation-easing: ease-out;
+  --hover-transform: none;
+  --hover-scale: 1;
+}
+
+/* Vietnamese Traditional Preset Tokens */
+[data-preset="trad"] {
+  /* Colors - Vietnamese Heritage Palette */
+  --bg: hsl(30, 15%, 5%); /* Deep charcoal with warm undertone */
+  --bg-muted: hsl(25, 35%, 8%); /* Lacquer dark brown */
+  --surface: hsl(25, 35%, 8%); /* Lacquer surface */
+  --text: hsl(40, 25%, 92%); /* Warm light text */
+  --text-muted: hsl(35, 20%, 75%); /* Muted warm text */
+  
+  --primary: hsl(0, 91%, 35%); /* Lacquer Red */
+  --primary-contrast: hsl(40, 25%, 92%);
+  --accent: hsl(45, 85%, 62%); /* Imperial Yellow */
+  --accent-contrast: hsl(30, 15%, 5%);
+  --secondary: hsl(168, 45%, 35%); /* Jade Green */
+  --border: hsl(42, 25%, 42%); /* Bronze */
+  --ring: hsl(45, 85%, 62%); /* Imperial Yellow */
+  
+  /* Layout - Sidebar Navigation */
+  --navbar-height: 0px;
+  --sidebar-width: 16rem;
+  --content-margin-left: 16rem;
+  --layout-type: 'sidebar';
+  
+  /* Typography - Vietnamese Fonts */
+  --font-family: 'Be Vietnam Pro', 'Inter', sans-serif;
+  --font-family-display: 'Noto Serif Display', 'Noto Serif', serif;
+  --font-family-body: 'Be Vietnam Pro', 'Inter', sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-bold: 600;
+  --letter-spacing: 0.025em;
+  
+  /* Spacing & Layout - Traditional proportions */
+  --radius: 1rem;
+  --radius-large: 1.5rem;
+  --radius-small: 0.75rem;
+  --spacing: 0.375rem;
+  --gap: 1.5rem;
+  --section-padding: 3rem 0;
+  
+  /* Shadows - Warm tones */
+  --shadow-elev-1: 0 2px 8px rgba(178, 10, 10, 0.1);
+  --shadow-elev-2: 0 4px 16px rgba(178, 10, 10, 0.15);
+  --shadow-elev-3: 0 8px 24px rgba(178, 10, 10, 0.2);
+  
+  /* Effects - Traditional textures */
+  --backdrop-blur: blur(8px);
+  --background-texture: url('/themes/trad/pattern.svg');
+  --pattern-opacity: 0.08;
+  --divider: 1px solid var(--accent);
+  
+  /* Animations - Gentle, ceremonial */
+  --animation-duration: 0.25s;
+  --animation-easing: ease-out;
+  --hover-transform: translateY(-1px);
+  --hover-scale: 1.02;
+}
+
+/* Component-specific tokens */
+
+/* Button tokens */
+[data-preset="modern"] {
+  --button-bg: var(--primary);
+  --button-text: var(--primary-contrast);
+  --button-border: transparent;
+  --button-hover-bg: hsl(45, 93%, 55%);
+  --button-focus-ring: var(--ring);
+}
+
+[data-preset="trad"] {
+  --button-bg: transparent;
+  --button-text: var(--accent);
+  --button-border: var(--accent);
+  --button-hover-bg: var(--accent);
+  --button-hover-text: var(--accent-contrast);
+  --button-focus-ring: var(--accent);
+  --button-shadow: 0 2px 4px rgba(242, 200, 75, 0.2);
+  --button-hover-shadow: 0 4px 12px rgba(242, 200, 75, 0.3);
+}
+
+/* Card tokens */
+[data-preset="modern"] {
+  --card-bg: var(--surface);
+  --card-border: var(--border);
+  --card-hover-border: var(--primary);
+  --card-shadow: var(--shadow-elev-1);
+  --card-hover-shadow: var(--shadow-elev-2);
+}
+
+[data-preset="trad"] {
+  --card-bg: var(--surface);
+  --card-border: var(--border);
+  --card-hover-border: var(--accent);
+  --card-shadow: var(--shadow-elev-1);
+  --card-hover-shadow: var(--shadow-elev-2);
+  --card-texture: url('/themes/trad/scroll-texture.svg');
+}
+
+/* Layout transitions */
+[data-preset="modern"] body {
+  margin-left: var(--content-margin-left);
+  transition: margin-left var(--preset-transition);
+}
+
+[data-preset="trad"] body {
+  margin-left: var(--content-margin-left);
+  transition: margin-left var(--preset-transition);
+}
+
+/* Premium Preset Tokens - Ultra Modern */
+[data-preset="premium"] {
+  /* Colors - Modern Gradient Palette */
+  --bg: hsl(240, 10%, 3%); /* Deep space black */
+  --bg-muted: linear-gradient(135deg, hsl(240, 10%, 4%) 0%, hsl(260, 15%, 6%) 100%);
+  --surface: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.08) 100%);
+  --text: hsl(0, 0%, 98%);
+  --text-muted: hsl(220, 15%, 70%);
+  
+  --primary: linear-gradient(135deg, hsl(280, 100%, 70%) 0%, hsl(240, 100%, 80%) 100%);
+  --primary-contrast: hsl(0, 0%, 98%);
+  --accent: linear-gradient(135deg, hsl(200, 100%, 60%) 0%, hsl(280, 100%, 70%) 100%);
+  --accent-contrast: hsl(0, 0%, 98%);
+  --secondary: hsl(240, 10%, 8%);
+  --border: hsl(240, 15%, 15%);
+  --ring: hsl(280, 100%, 70%);
+  
+  /* Layout - Floating Navigation */
+  --navbar-height: 0px;
+  --sidebar-width: 0px;
+  --content-margin-left: 0px;
+  --layout-type: 'floating';
+  
+  /* Typography - Modern Font Stack */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-family-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-family-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-bold: 600;
+  --letter-spacing: -0.025em;
+  
+  /* Spacing & Layout - Premium proportions */
+  --radius: 1.25rem;
+  --radius-large: 2rem;
+  --radius-small: 0.875rem;
+  --spacing: 0.5rem;
+  --gap: 2rem;
+  --section-padding: 5rem 0;
+  
+  /* Shadows - Glass morphism */
+  --shadow-elev-1: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
+  --shadow-elev-2: 0 16px 64px rgba(0, 0, 0, 0.16), 0 4px 12px rgba(0, 0, 0, 0.12);
+  --shadow-elev-3: 0 24px 96px rgba(0, 0, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.16);
+  
+  /* Effects - Advanced Glass Morphism */
+  --backdrop-blur: blur(20px);
+  --background-texture: none;
+  --pattern-opacity: 0;
+  --divider: 1px solid rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  
+  /* Animations - Smooth & Premium */
+  --animation-duration: 0.4s;
+  --animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
+  --hover-transform: translateY(-4px);
+  --hover-scale: 1.05;
+  --bounce-easing: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Premium Component Tokens */
+[data-preset="premium"] {
+  --button-bg: var(--primary);
+  --button-text: var(--primary-contrast);
+  --button-border: transparent;
+  --button-hover-bg: var(--accent);
+  --button-focus-ring: var(--ring);
+  --button-shadow: var(--shadow-elev-2);
+  --button-hover-shadow: var(--shadow-elev-3);
+  
+  --card-bg: var(--glass-bg);
+  --card-border: var(--glass-border);
+  --card-hover-border: rgba(255, 255, 255, 0.2);
+  --card-shadow: var(--shadow-elev-1);
+  --card-hover-shadow: var(--shadow-elev-2);
+  --card-backdrop: var(--backdrop-blur);
+}
+
+/* Premium Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(128, 0, 255, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(128, 0, 255, 0.6); }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+[data-preset="premium"] .animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+[data-preset="premium"] .animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+[data-preset="premium"] .animate-shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  [data-preset="trad"] {
+    --sidebar-width: 0px;
+    --content-margin-left: 0px;
+  }
+}

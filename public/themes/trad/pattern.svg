@@ -1,0 +1,22 @@
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="dongson" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+      <!-- Đông Sơn drum inspired pattern -->
+      <circle cx="25" cy="25" r="20" fill="none" stroke="#F2C84B" stroke-width="0.5" opacity="0.3"/>
+      <circle cx="25" cy="25" r="12" fill="none" stroke="#B20A0A" stroke-width="0.3" opacity="0.2"/>
+      <circle cx="25" cy="25" r="6" fill="none" stroke="#2F7F6F" stroke-width="0.3" opacity="0.2"/>
+      
+      <!-- Geometric waves -->
+      <path d="M0,25 Q12.5,15 25,25 T50,25" fill="none" stroke="#F2C84B" stroke-width="0.3" opacity="0.2"/>
+      <path d="M25,0 Q35,12.5 25,25 T25,50" fill="none" stroke="#6B5B3E" stroke-width="0.3" opacity="0.2"/>
+      
+      <!-- Small decorative dots -->
+      <circle cx="12.5" cy="12.5" r="1" fill="#F2C84B" opacity="0.1"/>
+      <circle cx="37.5" cy="12.5" r="1" fill="#B20A0A" opacity="0.1"/>
+      <circle cx="12.5" cy="37.5" r="1" fill="#2F7F6F" opacity="0.1"/>
+      <circle cx="37.5" cy="37.5" r="1" fill="#F2C84B" opacity="0.1"/>
+    </pattern>
+  </defs>
+  
+  <rect width="100" height="100" fill="url(#dongson)" opacity="0.6"/>
+</svg>

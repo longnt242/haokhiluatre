@@ -1,0 +1,150 @@
+Build me a Vietnamese marketing website for our indie game “Hào Khí Lửa Tre” by the team “The Weakened”. I don’t know how to code, so make it production-ready on Replit with minimal setup.
+
+Goals
+
+Vietnamese-language site to showcase the game (UE5 pre-rendered teaser).
+
+Public pages: Home (hero + teaser), 3D Models (like Sketchfab viewer), Gallery (2D images), Videos (teasers), About/Contact.
+
+A simple password-only upload page: when clicking Upload, prompt for a single password; if correct, allow uploads (no user accounts, no roles).
+
+Team members with the password can upload new models/images/videos without touching code.
+
+Tech & Hosting
+
+Next.js (App Router) + TypeScript
+
+Tailwind CSS (dark theme), responsive; simple polished components.
+
+3D viewer: @google/model-viewer (GLB/GLTF) with camera-controls, auto-rotate, good exposure, studio HDR; show a fallback if WebGL unsupported.
+
+Storage/CDN: Supabase Storage only (no database tables, no Prisma). Buckets: models, images, videos with public read.
+
+Must run on Replit: include proper build/start scripts and any needed .replit config so “Run” works first try.
+
+Environment variables (Replit → Tools → Secrets)
+
+NEXT_PUBLIC_SUPABASE_URL
+
+NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+SUPABASE_SERVICE_ROLE_KEY (server-only; never exposed to the browser)
+
+UPLOAD_PASSWORD (shared secret we set for uploads)
+
+Do not require DATABASE_URL.
+
+Supabase bootstrap
+
+On server start, if buckets models, images, videos don’t exist, create them and set public read.
+
+CORS should allow the site origin.
+
+Provide a simple health check and a friendly setup screen if envs are missing (don’t crash).
+
+Pages & UX (Vietnamese UI)
+
+Global branding: Site title “Hào Khí Lửa Tre — The Weakened”. Navbar: Trang chủ, Mô hình 3D, Thư viện ảnh, Video, Giới thiệu, Tải lên.
+
+/ Home:
+
+Hero with autoplay teaser (muted/loop).
+
+Tagline (VN): “Cinematic UE5 — dự án indie bởi The Weakened.”
+
+CTA buttons: “Xem Teaser”, “Khám phá Mô Hình 3D”.
+
+/models: Grid (up to ~10 items). Each card shows cover/title/tags.
+
+Click → /models/[id] detail with <model-viewer> (full-width, height ~70vh).
+
+Controls: rotate/zoom, “Toàn màn hình”, description, optional polycount/tags.
+
+/gallery: Masonry grid, lightbox (keyboard-navigable).
+
+/videos: Cards with poster + HTML5 <video> (MP4/WebM), mute/unmute, loop toggle.
+
+/about: Vietnamese copy placeholders about the project & team (The Weakened) + simple contact section (email placeholder).
+
+/upload: Public route; simple form:
+
+Select Loại nội dung: image | video | model
+
+File input (single file)
+
+Optional Tiêu đề
+
+On submit: prompt('Nhập mật khẩu upload'); send password, kind, file, title to /api/upload.
+
+Show progress + success/error toasts. After success, show the public URL returned by the API.
+
+Upload API (server only)
+
+POST /api/upload
+
+Validate password === process.env.UPLOAD_PASSWORD. If wrong → 401 with VN error: “Sai mật khẩu.”
+
+Determine bucket by kind:
+
+model → models (allow .glb, .gltf)
+
+image → images (PNG/JPG)
+
+video → videos (MP4/WebM)
+
+Generate a unique key (UUID + extension), set correct contentType, upload via Supabase Service Role (server side).
+
+Return JSON { ok, kind, url, path } where url is a public URL.
+
+Content display (no DB)
+
+All public pages list directly from Supabase Storage (server side): fetch objects in each bucket and render newest first.
+
+For models: if there’s a cover image, show it in the grid; otherwise use a default 3D placeholder icon. The detail page loads GLB/GLTF via <model-viewer src={publicUrl} …/>.
+
+Styling & Polish
+
+Dark theme, clean typography, sticky navbar, nice footer with social placeholders.
+
+Vietnamese labels everywhere: “Đăng tải”, “Tiêu đề”, “Loại nội dung”, “Ảnh”, “Video”, “Model 3D”, “Sai mật khẩu”, “Upload thành công!”…
+
+Accessible focus states; keyboard navigation for modal/lightbox.
+
+Add Open Graph/SEO meta using the game name and team (title: “Hào Khí Lửa Tre — The Weakened”).
+
+Security & Limits
+
+Only “auth” is the single password checked server-side.
+
+Never expose SUPABASE_SERVICE_ROLE_KEY to client code.
+
+Validate file types and limit size (e.g., ≤ 200MB). Return clear VN errors.
+
+Deliverables
+
+Running Next.js app on Replit with routes:
+/, /models, /models/[id], /gallery, /videos, /about, /upload, and POST /api/upload.
+
+Supabase integration that:
+
+Creates buckets if missing with public read;
+
+Lists bucket contents for public pages;
+
+Uploads server-side after password check and returns public URLs.
+
+Seed with sample content (1 image, 1 short video, 1 GLB) so all sections work immediately.
+
+A concise README (VN or EN) explaining:
+
+How to create a Supabase project;
+
+Where to get NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY;
+
+How to set UPLOAD_PASSWORD in Replit Secrets;
+
+How to upload via /upload.
+
+No Prisma, no DATABASE_URL. App must boot with only the 4 envs above.
+
+When you’re done, run it so I can open the Replit public URL and test /upload.
