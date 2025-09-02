@@ -1,4 +1,6 @@
 import { Mail, MessageCircle, Twitter } from 'lucide-react';
+import gameIcon from '../assets/game-icon.png';
+import teamLogo from '../assets/team-logo.png';
 
 export default function About() {
   return (
@@ -24,7 +26,7 @@ export default function About() {
           </div>
           <div className="relative">
             <img 
-              src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" 
+              src={gameIcon}
               alt="Concept art game Hào Khí Lửa Tre" 
               className="rounded-lg shadow-xl"
             />
@@ -35,7 +37,7 @@ export default function About() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="order-2 lg:order-1">
             <img 
-              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" 
+              src={teamLogo}
               alt="Team The Weakened đang phát triển game" 
               className="rounded-lg shadow-xl"
             />
