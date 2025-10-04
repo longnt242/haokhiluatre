@@ -34,7 +34,12 @@ const supabase = isSupabaseConfigured
   ? createClient(supabaseUrl, supabaseKey)
   : null;
 
-type ContentType = "2DImage" | "3DImage" | "videos" | "models";
+type ContentType =
+  | "2DImage"
+  | "3DImage"
+  | "videos"
+  | "models"
+  | "BehindTheScene";
 
 interface UploadResponse {
   ok: boolean;
@@ -193,6 +198,13 @@ export default function Upload() {
         "model/gltf-binary",
         "application/octet-stream",
       ],
+      BehindTheScene: [
+        "image/png",
+        "image/jpeg",
+        "image/jpg",
+        "video/mp4",
+        "video/webm",
+      ],
     };
 
     const isValidType =
@@ -253,6 +265,8 @@ export default function Upload() {
         return ".mp4,.webm";
       case "models":
         return ".glb,.gltf";
+      case "BehindTheScene":
+        return ".png,.jpg,.jpeg,.mp4,.webm";
       default:
         return "";
     }
@@ -320,6 +334,12 @@ export default function Upload() {
                     <SelectItem value="models">
                       <div className="flex items-center gap-2">
                         <Box className="w-4 h-4" /> Mô Hình 3D (GLB, GLTF)
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="BehindTheScene">
+                      <div className="flex items-center gap-2">
+                        <Image className="w-4 h-4" /> Behind The Scene (PNG,
+                        JPG, MP4, WebM)
                       </div>
                     </SelectItem>
                   </SelectContent>

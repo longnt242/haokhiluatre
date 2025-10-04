@@ -38,7 +38,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
     // Bootstrap: Create buckets if they don't exist
     try {
-      const buckets = ['models', '2DImage', '3DImage', 'videos'];
+      const buckets = ['models', '2DImage', '3DImage', 'videos', 'BehindTheScene'];
       for (const bucketName of buckets) {
         const { data: bucket } = await supabase.storage.getBucket(bucketName);
         if (!bucket) {
@@ -129,6 +129,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         "3DImage": ['image/png', 'image/jpeg', 'image/jpg'],
         videos: ['video/mp4', 'video/webm'],
         models: ['model/gltf+json', 'model/gltf-binary', 'application/octet-stream'], // GLB files come as octet-stream
+        "BehindTheScene": ['image/png', 'image/jpeg', 'image/jpg', 'video/mp4', 'video/webm'],
       };
 
       // For models, also check file extension since MIME type might not be accurate
@@ -149,6 +150,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         "3DImage": '3DImage',
         videos: 'videos', 
         models: 'models',
+        "BehindTheScene": 'BehindTheScene',
       };
       const bucket = bucketMap[kind];
 

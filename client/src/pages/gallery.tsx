@@ -29,7 +29,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Gallery() {
   const [dimension, setDimension] = useState("ALL");
-  const options = ["ALL", "2D", "3D"];
+  const options = ["ALL", "2D", "3D", "BehindTheScene"];
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -61,6 +61,12 @@ export default function Gallery() {
         enabled: dimension === "ALL" || dimension === "3D",
         placeholderData: keepPreviousData,
       },
+      {
+        queryKey: ["BehindTheScene", dimension],
+        queryFn: () => fetchImages(`${API_URL}/api/content/BehindTheScene`),
+        enabled: dimension === "ALL" || dimension === "BehindTheScene",
+        placeholderData: keepPreviousData,
+      },
     ],
   });
 
@@ -68,6 +74,7 @@ export default function Gallery() {
   const images: ImageFile[] = [
     ...(queries[0].data ?? []),
     ...(queries[1].data ?? []),
+    ...(queries[2].data ?? []),
   ];
 
   // Safe loading & errors
@@ -153,7 +160,7 @@ export default function Gallery() {
                     value={opt}
                     className="text-center hover:bg-primary cursor-pointer"
                   >
-                    {opt}
+                    {opt === "BehindTheScene" ? "Behind The Scene" : opt}
                   </SelectItem>
                 ))}
               </SelectGroup>
