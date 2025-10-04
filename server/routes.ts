@@ -3,8 +3,6 @@ import { createServer, type Server } from "http";
 import { createClient } from '@supabase/supabase-js';
 import multer from 'multer';
 import 'dotenv/config';
-import { uploadContentSchema } from "@shared/schema";
-import { z } from "zod";
 
 // Configure multer for file uploads (200MB limit)
 const upload = multer({
@@ -23,13 +21,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     console.warn("⚠️  Supabase environment variables not configured");
   }
 
+  async function listBuckets() {
+  const { data, error } = await supabase.storage.listBuckets()
+  if (error) {
+    console.error('Error listing buckets:', error)
+    return false
+  } else {
+    console.log('Buckets:', data)
+    return true
+  }
+}
+
   let supabase: any = null;
   if (supabaseUrl && supabaseServiceKey) {
     supabase = createClient(supabaseUrl, supabaseServiceKey);
-    
+
     // Bootstrap: Create buckets if they don't exist
     try {
-      const buckets = ['models', 'images', 'videos'];
+      const buckets = ['models', '2DImage', '3DImage', 'videos'];
       for (const bucketName of buckets) {
         const { data: bucket } = await supabase.storage.getBucket(bucketName);
         if (!bucket) {
@@ -45,19 +54,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   }
 
   // Health check endpoint
-  app.get('/api/health', (req, res) => {
-    const envStatus = {
-      supabaseUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
-      supabaseAnonKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-      supabaseServiceKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
-      uploadPassword: !!process.env.UPLOAD_PASSWORD,
-    };
-    
-    res.json({
-      status: 'ok',
-      environment: envStatus,
-      ready: Object.values(envStatus).every(Boolean),
-    });
+  app.get('/api/health', async (req, res) => {
+    if(await listBuckets()){
+      res.json({ status: 'ok', message: 'Server is healthy and Supabase is connected.' });
+    }
+    else{
+      res.status(503).json({ status: 'error', message: 'Supabase not configured. Please set environment variables.' });
+    } 
   });
 
   // Get content from Supabase Storage buckets
@@ -67,6 +70,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: 'Supabase not configured. Please set environment variables.' 
       });
     }
+    console.log('Fetching content from bucket:', req.params.bucket);
 
     try {
       const { bucket } = req.params;
@@ -81,8 +85,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (error) {
         return res.status(500).json({ message: error.message });
       }
-
-      console.log(`Fetched ${files.length} files from bucket: ${bucket}`);
 
       // Get public URLs and metadata for each file
       const filesWithUrls = files.map((file: any) => ({
@@ -114,7 +116,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Validate password
       if (password !== process.env.UPLOAD_PASSWORD) {
-        console.log(password, process.env.UPLOAD_PASSWORD);
         return res.status(401).json({ message: 'Sai mật khẩu.' });
       }
 
@@ -124,13 +125,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Validate file type based on kind
       const allowedTypes: Record<string, string[]> = {
-        image: ['image/png', 'image/jpeg', 'image/jpg'],
-        video: ['video/mp4', 'video/webm'],
-        model: ['model/gltf+json', 'model/gltf-binary', 'application/octet-stream'], // GLB files come as octet-stream
+        "2DImage": ['image/png', 'image/jpeg', 'image/jpg'],
+        "3DImage": ['image/png', 'image/jpeg', 'image/jpg'],
+        videos: ['video/mp4', 'video/webm'],
+        models: ['model/gltf+json', 'model/gltf-binary', 'application/octet-stream'], // GLB files come as octet-stream
       };
 
       // For models, also check file extension since MIME type might not be accurate
-      if (kind === 'model') {
+      if (kind === 'models') {
         const isValidModel = allowedTypes.model.includes(file.mimetype) || 
                            file.originalname.toLowerCase().endsWith('.glb') || 
                            file.originalname.toLowerCase().endsWith('.gltf');
@@ -143,9 +145,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Determine bucket
       const bucketMap: Record<string, string> = {
-        image: 'images',
-        video: 'videos', 
-        model: 'models',
+        "2DImage": '2DImage',
+        "3DImage": '3DImage',
+        videos: 'videos', 
+        models: 'models',
       };
       const bucket = bucketMap[kind];
 
@@ -195,7 +198,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       return res.status(503).json({ 
         message: 'Supabase chưa được cấu hình. Vui lòng kiểm tra biến môi trường.' 
       });
-    }
+    }``
 
     try {
       const { bucket, filename } = req.params;
